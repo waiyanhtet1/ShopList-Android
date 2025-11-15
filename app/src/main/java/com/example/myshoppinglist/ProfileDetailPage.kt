@@ -30,7 +30,8 @@ fun ProfileDetailPage(userId: Int, navController: NavHostController?) {
             AppBar(
                 label = "User Detail",
                 icon = Icons.Default.ArrowBack,
-                ) { navController?.navigateUp() }
+                iconOnClick = { navController?.navigateUp() }
+                )
         }
     ) { innerPadding ->
         Surface(

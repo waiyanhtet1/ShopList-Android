@@ -67,7 +67,8 @@ class MainActivity : ComponentActivity() {
                 AppBar(
                     label = "User List",
                     icon = Icons.Default.Home,
-                   ){}
+                    iconOnClick = {}
+                   )
             }
         ) { innerPadding ->
             Surface(
