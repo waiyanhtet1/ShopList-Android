@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -17,9 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.myshoppinglist.components.AppBar
 import com.example.myshoppinglist.components.ProfileCard
 import com.example.myshoppinglist.ui.theme.MyShoppingListTheme
@@ -43,8 +47,14 @@ class MainActivity : ComponentActivity() {
             composable("users_list") {
                 MainScreen(userProfiles, navController)
             }
-            composable("user_detail") {
-                ProfileDetailPage()
+            composable(
+                "user_detail/{userId}",
+                arguments = listOf(
+                    navArgument("userId") {
+                        type = NavType.IntType
+                    }
+                )) { it ->
+                ProfileDetailPage(it.arguments!!.getInt("userId") , navController )
             }
         }
     }
@@ -53,7 +63,12 @@ class MainActivity : ComponentActivity() {
     fun MainScreen(userProfiles: List<UserProfile>, navController: NavHostController?) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            topBar = { AppBar() }
+            topBar = {
+                AppBar(
+                    label = "User List",
+                    icon = Icons.Default.Home,
+                   ){}
+            }
         ) { innerPadding ->
             Surface(
                 modifier = Modifier
@@ -68,7 +83,7 @@ class MainActivity : ComponentActivity() {
                         ProfileCard(
                             userProfile = item,
                             cardOnClick = {
-                                navController?.navigate("user_detail")
+                                navController?.navigate("user_detail/${item.id}")
                             })
                     }
                 }
